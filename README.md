@@ -11,8 +11,6 @@
 
 <p align="center">
   <a href="https://github.com/byrdltd/whyLIAN">GitHub</a> ·
-  <a href="PRODUCT_CONTEXT.md">Product context</a> ·
-  <a href="ROADMAP.md">Roadmap</a> ·
   <a href="CHANGELOG.md">Changelog</a>
 </p>
 
@@ -49,14 +47,9 @@ credit and submodule licenses: [NOTICE](NOTICE).
 
 | Doc | Purpose |
 |-----|---------|
-| [PRODUCT_CONTEXT.md](PRODUCT_CONTEXT.md) | Problem, architecture, scope |
-| [ROADMAP.md](ROADMAP.md) | Done / planned / research items |
 | [CHANGELOG.md](CHANGELOG.md) | Fork release notes |
-| [RELEASE_CHECKLIST.md](RELEASE_CHECKLIST.md) | Pre-tag verification steps |
-| [CONTRIBUTING.md](CONTRIBUTING.md) | Dev setup, PR guidelines |
 | [DISCLAIMER.md](DISCLAIMER.md) | **Required reading** — liability, cooling risk, acceptance |
 | [SECURITY.md](SECURITY.md) | Vulnerability reporting |
-| [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) | Community standards |
 
 ## Fork highlights
 
@@ -91,7 +84,7 @@ systemctl --user enable --now lianli-daemon
 yay -S whylian
 ```
 
-**AUR:** `yay -S whylian` (release tag) or `yay -S whylian-git` (main branch) — see [packaging/aur/](packaging/aur/).
+**AUR:** `yay -S whylian` (release tag) or `yay -S whylian-git` (main branch).
 
 Dependencies: `libusb`, `ffmpeg`, and libraries listed in the PKGBUILD.
 Replaces `lianli-linux`, `lianli-linux-git`, and `whylian-git` if previously installed.

@@ -102,7 +102,7 @@ or expense (including reasonable attorneys' fees) arising out of or related to:
 
 Core protocol work builds on the [lian-li-linux](https://github.com/sgtaziz/lian-li-linux)
 community's reverse-engineering of L-Connect behaviour. Fork-specific changes
-are documented in [PRODUCT_CONTEXT.md](PRODUCT_CONTEXT.md).
+are listed in [CHANGELOG.md](CHANGELOG.md).
 
 **Lian Li**, **L-Connect**, and related names are trademarks of their respective
 owners. whyLIAN is an independent project and is **not affiliated with,
