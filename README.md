@@ -16,7 +16,7 @@
 
 <p align="center">
   <strong>Current release:</strong> <a href="https://github.com/byrdltd/whyLIAN/releases/tag/v1.0.4">v1.0.4</a>
-  · AUR: <code>whylian</code> / <code>whylian-git</code> (Arch package names are lowercase)
+  · AUR: <code>whylian</code>
 </p>
 
 ## About
@@ -84,7 +84,7 @@ systemctl --user enable --now lianli-daemon
 yay -S whylian
 ```
 
-**AUR:** `yay -S whylian` (release tag) or `yay -S whylian-git` (main branch).
+**AUR:** `yay -S whylian` (built from the release tag).
 
 Dependencies: `libusb`, `ffmpeg`, and libraries listed in the PKGBUILD.
 Replaces `lianli-linux`, `lianli-linux-git`, and `whylian-git` if previously installed.
