@@ -283,6 +283,10 @@ impl ServiceManager {
             self.last_wireless_count = current_wireless;
         }
 
+        // Re-bind configured wireless devices that dropped off the dongle
+        // (resume RF loss, dropout). No-op when nothing is unbound.
+        self.auto_rebind_wireless();
+
         self.check_wired_hotplug();
         self.refresh_targets();
         self.process_pending_lcd_firmware();

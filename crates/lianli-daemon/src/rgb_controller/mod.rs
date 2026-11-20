@@ -80,11 +80,9 @@ impl RgbController {
             return;
         }
 
-        if config.openrgb_server {
-            debug!("Skipping native RGB config — OpenRGB server is enabled");
-            return;
-        }
-
+        // Only suppress native config when an OpenRGB client is actually
+        // connected and controlling; a mere enabled server must not block
+        // preset restoration after restart/rebind.
         if self.openrgb_active {
             debug!("Skipping native RGB config — OpenRGB has active control");
             return;
