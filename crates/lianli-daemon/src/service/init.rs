@@ -694,6 +694,73 @@ impl ServiceManager {
         ok
     }
 
+    /// Re-bind wireless devices that the config references but which have lost
+    /// their association with this dongle (e.g. after a system resume, or a
+    /// spontaneous RF dropout). Called on every DevicePoll tick; no-op when
+    /// nothing configured is currently unbound.
+    pub(super) fn auto_rebind_wireless(&mut self) {
+        let expected = {
+            let cfg = match self.config.as_ref() {
+                Some(c) => c,
+                None => return,
+            };
+            let mut set = HashSet::new();
+            if let Some(fans) = &cfg.fans {
+                for g in &fans.speeds {
+                    if let Some(mac) = g
+                        .device_id
+                        .as_deref()
+                        .and_then(|id| id.strip_prefix("wireless:"))
+                        .and_then(super::runtime::parse_mac_str)
+                    {
+                        set.insert(mac);
+                    }
+                }
+            }
+            if let Some(rgb) = &cfg.rgb {
+                for d in &rgb.devices {
+                    if let Some(mac) = d
+                        .device_id
+                        .strip_prefix("wireless:")
+                        .and_then(super::runtime::parse_mac_str)
+                    {
+                        set.insert(mac);
+                    }
+                }
+            }
+            for device_id in cfg.aio.keys() {
+                if let Some(mac) = device_id
+                    .strip_prefix("wireless:")
+                    .and_then(super::runtime::parse_mac_str)
+                {
+                    set.insert(mac);
+                }
+            }
+            set
+        };
+        if expected.is_empty() {
+            return;
+        }
+        let unbound: Vec<[u8; 6]> = self
+            .wireless
+            .lock()
+            .unbound_devices()
+            .into_iter()
+            .map(|d| d.mac)
+            .filter(|mac| expected.contains(mac))
+            .collect();
+        for mac in unbound {
+            info!(
+                "Auto-rebinding wireless device {:02x?} (lost association with this dongle)",
+                mac
+            );
+            match self.wireless.lock().bind_device(&mac) {
+                Ok(()) => info!("Auto-rebind of {:02x?} succeeded", mac),
+                Err(e) => warn!("Auto-rebind of {:02x?} failed: {e:#}", mac),
+            }
+        }
+    }
+
     pub(super) fn load_config(&mut self, tx: Sender<DaemonEvent>) -> bool {
         let templates_path = template_store::templates_path_for(&self.config_path);
         let sensors_for_preview = lianli_shared::sensors::enumerate_sensors();
